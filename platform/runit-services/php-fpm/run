@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+#exec 2&>1
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+        set -- php "$@"
+fi
+
+exec /usr/bin/dumb-init --rewrite 15:3 -- /usr/local/sbin/php-fpm -F

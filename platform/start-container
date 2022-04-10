@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+source /platform/bash-exec
+
+if [ ! -z "$WWWUID" ]; then
+    usermod -u $WWWUID www-data;
+    chown -R www-data /var/www;
+    chown www-data /app;
+fi
+
+if [ ! -z "$WWWGID" ]; then
+    groupmod -g $WWWGID www-data
+    chgrp -R www-data /var/www
+    chgrp www-data /app;
+fi
+export SVDIR=/platform/services/
+export SVWAIT=60
+
+set -E
+function shutdown () {
+    # Disabling the traps to avoid a cascading
+    trap - SIGINT SIGILL SIGABRT SIGFPE SIGSEGV SIGTERM SIGBUS SIGCHLD SIGKILL ERR
+
+	echo "waiting for all services to exit ..."
+	DONE=0
+	while [ $DONE -ne 1 ]
+	do
+		for x in `ls /platform/services/`;
+		do
+			echo "Stopping service /platform/services/$x ..."
+			sv down $x
+		done
+		$(/usr/bin/sv status /platform/services/* | grep -q '^run:')
+		DONE=$?
+		echo "done is $DONE"
+		if [ $DONE -eq 127 ]
+		then
+			exit 1
+		fi
+		sleep 1
+	done
+exit 0
+}
+trap shutdown SIGTERM SIGQUIT SIGINT;
+
+function sigterm_cleanup_post () {
+shutdown
+}
+
+for x in `ls /platform/services/`;
+do
+	echo "Staring service /platform/services/$x ..."
+	exec /usr/bin/runsv  /platform/services/$x &
+done
+wait -n
