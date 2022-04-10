@@ -39,17 +39,32 @@ function shutdown () {
 		fi
 		sleep 1
 	done
+    # terminate the runsv commands
+    for x in `ls /platform/services/`;
+    do
+        echo "Stopping service /platform/services/$x ..."
+        sv x $x
+    done
+
 exit 0
 }
 trap shutdown SIGTERM SIGQUIT SIGINT;
 
 function sigterm_cleanup_post () {
-shutdown
+    shutdown
+    return 0
+}
+function trap_exec_failure () {
+    shutdown
+    return 0
 }
 
+pids=()
 for x in `ls /platform/services/`;
 do
 	echo "Staring service /platform/services/$x ..."
-	exec /usr/bin/runsv  /platform/services/$x &
+	exec /usr/bin/runsv  /platform/services/$x & pids+=($!)
 done
-wait -n
+for pid in ${pids[*]}; do
+    wait $pids
+done
