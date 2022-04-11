@@ -1,40 +1,51 @@
 FROM php:7.3.33-fpm-bullseye as php-bullseye-build
 
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+RUN apt-get update;
+	#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold";
 
-#RUN set -ex \
-#    && { \
-#			apt-get update ; \
-#            apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev; \
-#            rm -rf /var/lib/apt/lists/*; \
-#       }
+# MYSQL
+RUN docker-php-ext-install pdo pdo_mysql mysqli;
 
-#RUN docker-php-ext-configure gd \
-#        --with-freetype-dir=/usr/include/freetype2 \
-#        --with-png-dir=/usr/include \
-#        --with-jpeg-dir=/usr/include
+# BC MATH
+RUN docker-php-ext-install bcmath;
 
-#RUN docker-php-ext-install gd \
-#    && docker-php-ext-enable opcache
+# PCNTL
+RUN docker-php-ext-install pcntl;
 
-#RUN set -ex \
-#    && { \
-#            apt-get update ; \
-#            apt-get install -y libmemcached-dev; \
-#            rm -rf /var/lib/apt/lists/*; \
-#       }
+# OPCACHE
+RUN docker-php-ext-enable opcache;
 
-#RUN set -ex && \
-#    { \
-#            pecl install igbinary && \
-#            pecl install --nobuild memcached && \
-#            cd "$(pecl config-get temp_dir)/memcached" && \
-#            phpize && \
-#            ./configure --enable-memcached-igbinary && \
-#            make -j$(nproc) && \
-#            make install; \
-#    } && \
-#    docker-php-ext-enable igbinary memcached
+# GD
+RUN set -eux; \
+	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
+
+RUN set -eux; \
+	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev \
+	&& \
+	docker-php-ext-configure gd \
+		--with-freetype-dir=/usr/include/freetype2 \
+		--with-png-dir=/usr/include \
+		--with-jpeg-dir=/usr/include \
+	&& \
+	docker-php-ext-install gd;
+
+# PGSQL
+RUN set -eux; \
+	apt-get install -y libpq-dev; \
+	docker-php-ext-install pdo_pgsql
+
+RUN set -eux \
+	&& { \
+		apt-get install -y libmemcached-dev; \
+		pecl install igbinary && \
+		pecl install --nobuild memcached && \
+		cd "$(pecl config-get temp_dir)/memcached" && \
+		phpize && \
+		./configure --enable-memcached-igbinary && \
+		make -j$(nproc) && \
+		make install; \
+	    docker-php-ext-enable igbinary memcached; \
+	}
 
 #RUN set -ex \
 #    && { \
@@ -79,12 +90,6 @@ RUN set -ex && \
 #            pecl install ssh2-1.3.1; \
 #            docker-php-ext-enable ssh2; \
 #       }
-
-# BC MATH
-RUN docker-php-ext-install bcmath;
-
-# PCNTL
-RUN docker-php-ext-install pcntl
 
 # LIBSODIUM
 RUN set -ex \
