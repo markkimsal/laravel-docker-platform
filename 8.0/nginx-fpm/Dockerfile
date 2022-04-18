@@ -102,6 +102,9 @@ RUN set -ex && \
 
 FROM debian:bullseye-slim
 COPY --from=php-bullseye-build \
+                /usr/src/php.tar.xz /usr/src/php.tar.xz
+
+COPY --from=php-bullseye-build \
                 /usr/local/ /usr/local/
 
 COPY --from=php-bullseye-build \
