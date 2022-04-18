@@ -10,7 +10,7 @@ apt-get update
 ## Install add-apt-repository
 #$minimal_apt_get_install software-properties-common
 ## Upgrade all packages.
-#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold"
+apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold"
 
 $minimal_apt_get_install \
     runit         \
@@ -24,6 +24,7 @@ $minimal_apt_get_install \
     libfreetype6  \
 	libreadline8  \
 	libcurl4      \
+    libpqxx-6.4   \
     libzip4
 
 #apt-get clean

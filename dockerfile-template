@@ -122,8 +122,8 @@ RUN ldconfig
 COPY platform /platform
 
 RUN /platform/build-deps.sh
-RUN    /platform/build-configs.sh
-RUN    /platform/install-bin.sh
+RUN /platform/build-configs.sh
+RUN /platform/install-bin.sh
 
 
 COPY platform/runit-services /platform/services/

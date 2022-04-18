@@ -13,6 +13,12 @@ if [ ! -z "$WWWGID" ]; then
     chgrp -R www-data /var/www
     chgrp www-data /app;
 fi
+
+for oneshot in `ls /platform/start-container.d/`
+do
+    $oneshot
+done
+
 export SVDIR=/platform/services/
 export SVWAIT=60
 
@@ -21,30 +27,38 @@ function shutdown () {
     # Disabling the traps to avoid a cascading
     trap - SIGINT SIGILL SIGABRT SIGFPE SIGSEGV SIGTERM SIGBUS SIGCHLD SIGKILL ERR
 
-	echo "waiting for all services to exit ..."
-	DONE=0
-	while [ $DONE -ne 1 ]
-	do
-		for x in `ls /platform/services/`;
-		do
-			echo "Stopping service /platform/services/$x ..."
-			sv down $x
-		done
-		$(/usr/bin/sv status /platform/services/* | grep -q '^run:')
-		DONE=$?
-		echo "done is $DONE"
-		if [ $DONE -eq 127 ]
-		then
-			exit 1
-		fi
-		sleep 1
-	done
+    echo "waiting for all services to exit ..."
+    DONE=0
+    SLEEP_COUNT=0
+    SLEEP_MAX=60
+    while [ $DONE -ne 1 && SLEEP_COUNT < SLEEP_MAX ]
+    do
+        for x in `ls /platform/services/`;
+        do
+            echo "Stopping service /platform/services/$x ..."
+            sv down $x
+        done
+        $(/usr/bin/sv status /platform/services/* | grep -q '^run:')
+        DONE=$?
+        echo "done is $DONE"
+        if [ $DONE -eq 127 ]
+        then
+            exit 1
+        fi
+        SLEEP_COUNT = SLEEP_COUNT + 1
+        sleep 1
+    done
     # terminate the runsv commands
     for x in `ls /platform/services/`;
     do
         echo "Stopping service /platform/services/$x ..."
         sv x $x
     done
+
+    if [ SLEEP_COUNT <= SLEEP_MAX ]
+    then
+        exit 1
+    fi
 
 exit 0
 }
@@ -62,8 +76,8 @@ function trap_exec_failure () {
 pids=()
 for x in `ls /platform/services/`;
 do
-	echo "Staring service /platform/services/$x ..."
-	exec /usr/bin/runsv  /platform/services/$x & pids+=($!)
+    echo "Staring service /platform/services/$x ..."
+    exec /usr/bin/runsv  /platform/services/$x & pids+=($!)
 done
 for pid in ${pids[*]}; do
     wait $pids

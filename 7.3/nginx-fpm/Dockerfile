@@ -34,6 +34,7 @@ RUN set -eux; \
 	apt-get install -y libpq-dev; \
 	docker-php-ext-install pdo_pgsql
 
+# MEMCACHE
 RUN set -eux \
 	&& { \
 		apt-get install -y libmemcached-dev; \
@@ -47,56 +48,49 @@ RUN set -eux \
 	    docker-php-ext-enable igbinary memcached; \
 	}
 
-#RUN set -ex \
-#    && { \
-#            apt-get update ; \
-#            apt-get install -y zlib1g-dev libicu-dev; \
-#            rm -rf /var/lib/apt/lists/*; \
-##       }
+# INTL
+RUN set -ex \
+    && { \
+            apt-get install -y zlib1g-dev libicu-dev; \
+			docker-php-ext-configure intl; \
+			docker-php-ext-install intl; \
+       }
 
-#RUN docker-php-ext-configure intl \
-#    && docker-php-ext-install intl
 
+# XDEBUG
 RUN set -ex && \
     { \
             pecl install xdebug; \
     }
 
 # XML
-#RUN set -ex \
-#    && { \
-#        apt-get update ; \
-#        apt-get install -y libxml2-dev; \
-#        rm -rf /var/lib/apt/lists/*; \
-#        docker-php-ext-install soap; \
-#    }
+RUN set -ex \
+    && { \
+        apt-get install -y libxml2-dev; \
+        docker-php-ext-install soap; \
+    }
 
 # ZIP
-#RUN set -ex \
-#    && { \
-#        apt-get update ; \
-#        apt-get install -y libzip-dev libzip4; \
-#        docker-php-ext-configure zip --with-zlib-dir=/usr; \
-#        docker-php-ext-install zip; \
-#        docker-php-ext-enable zip; \
-#    }
+RUN set -ex \
+    && { \
+        apt-get install -y libzip-dev libzip4; \
+        docker-php-ext-configure zip --with-zlib-dir=/usr; \
+        docker-php-ext-install zip; \
+        docker-php-ext-enable zip; \
+    }
 
 # SSH
-#RUN set -ex \
-#    && { \
-#            apt-get update ; \
-#            apt-get install -y libssl-dev libssh2-1-dev git; \
-#            rm -rf /var/lib/apt/lists/*; \
-#            pecl install ssh2-1.3.1; \
-#            docker-php-ext-enable ssh2; \
-#       }
+RUN set -ex \
+    && { \
+            apt-get install -y libssl-dev libssh2-1-dev git; \
+            pecl install ssh2-1.3.1; \
+            docker-php-ext-enable ssh2; \
+       }
 
 # LIBSODIUM
 RUN set -ex \
     && { \
-        apt-get update ; \
         apt-get install -y libsodium-dev libsodium23; \
-        rm -rf /var/lib/apt/lists/*; \
         pecl install libsodium; \
         docker-php-ext-enable sodium; \
    }
