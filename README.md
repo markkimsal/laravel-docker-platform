@@ -3,10 +3,14 @@ Docker container for Laravel and PHP projects.  Graceful shutdown.  No-python su
 
 # NGINX-FPM Images
 
-Build the images with
-
+Update the all Dockerfiles
 ```
-docker build -t php-platform:7.3.33-fpm -f 7.3/nginx-fpm/Dockerfile  .
+php ./make-versions.php
+```
+
+Build a single image images with
+```
+bash ./build-image.sh 8.0
 ```
 
 # PHP Extensions
