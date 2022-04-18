@@ -31,8 +31,8 @@ function shutdown () {
     echo "waiting for all services to exit ..."
     DONE=0
     SLEEP_COUNT=0
-    SLEEP_MAX=60
-    while [ $DONE -ne 1 ] && [ $SLEEP_COUNT < $SLEEP_MAX ];
+    SLEEP_MAX=$SVWAIT
+    while [ $DONE -ne 1 ] && [ $SLEEP_COUNT -le $SLEEP_MAX ];
     do
         for x in `ls /platform/services/`;
         do
@@ -56,7 +56,7 @@ function shutdown () {
         sv x $x
     done
 
-    if [ $SLEEP_COUNT <= $SLEEP_MAX ]
+    if [ $SLEEP_COUNT -le $SLEEP_MAX ]
     then
         exit 1
     fi
