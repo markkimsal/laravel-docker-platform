@@ -16,9 +16,7 @@ RUN docker-php-ext-install pcntl;
 RUN docker-php-ext-enable opcache;
 
 # GD
-RUN set -eux; \
-	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
-
+<?php if ($majorVersion == '7.3'): ?>
 RUN set -eux; \
 	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev \
 	&& \
@@ -28,6 +26,17 @@ RUN set -eux; \
 		--with-jpeg-dir=/usr/include \
 	&& \
 	docker-php-ext-install gd;
+<?php else: ?>
+RUN set -eux; \
+	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev \
+	&& \
+	docker-php-ext-configure gd \
+		--with-freetype \
+		--with-jpeg \
+		--with-webp \
+	&& \
+	docker-php-ext-install gd;
+<?php endif; ?>
 
 # PGSQL
 RUN set -eux; \
@@ -71,6 +80,7 @@ RUN set -ex \
     }
 
 # ZIP
+<?php if ($majorVersion == '7.3'): ?>
 RUN set -ex \
     && { \
         apt-get install -y libzip-dev libzip4; \
@@ -78,6 +88,15 @@ RUN set -ex \
         docker-php-ext-install zip; \
         docker-php-ext-enable zip; \
     }
+<?php else: ?>
+RUN set -ex \
+    && { \
+        apt-get install -y libzip-dev libzip4; \
+        docker-php-ext-configure zip; \
+        docker-php-ext-install zip; \
+        docker-php-ext-enable zip; \
+    }
+<?php endif; ?>
 
 # SSH
 RUN set -ex \

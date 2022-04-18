@@ -23,9 +23,10 @@ $minimal_apt_get_install \
 $minimal_apt_get_install \
     libsodium23   \
     libfreetype6  \
-	libreadline8  \
-	libcurl4      \
+    libreadline8  \
+    libcurl4      \
     libpqxx-6.4   \
+    libonig5      \
     libzip4
 
 #apt-get clean

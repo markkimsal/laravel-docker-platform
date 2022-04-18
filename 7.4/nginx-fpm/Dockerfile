@@ -1,4 +1,4 @@
-FROM php:7.3.33-fpm-bullseye as php-bullseye-build
+FROM php:7.4.28-fpm-bullseye as php-bullseye-build
 
 RUN apt-get update;
 	#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold";
@@ -17,12 +17,12 @@ RUN docker-php-ext-enable opcache;
 
 # GD
 RUN set -eux; \
-	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev \
+	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev \
 	&& \
 	docker-php-ext-configure gd \
-		--with-freetype-dir=/usr/include/freetype2 \
-		--with-png-dir=/usr/include \
-		--with-jpeg-dir=/usr/include \
+		--with-freetype \
+		--with-jpeg \
+		--with-webp \
 	&& \
 	docker-php-ext-install gd;
 
@@ -71,7 +71,7 @@ RUN set -ex \
 RUN set -ex \
     && { \
         apt-get install -y libzip-dev libzip4; \
-        docker-php-ext-configure zip --with-zlib-dir=/usr; \
+        docker-php-ext-configure zip; \
         docker-php-ext-install zip; \
         docker-php-ext-enable zip; \
     }
