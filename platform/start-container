@@ -16,7 +16,8 @@ fi
 
 for oneshot in `ls /platform/start-container.d/`
 do
-    $oneshot
+    echo "executing one shot start-up command /platform/start-container.d/$oneshot"
+    /platform/start-container.d/$oneshot
 done
 
 export SVDIR=/platform/services/
@@ -31,7 +32,7 @@ function shutdown () {
     DONE=0
     SLEEP_COUNT=0
     SLEEP_MAX=60
-    while [ $DONE -ne 1 && SLEEP_COUNT < SLEEP_MAX ]
+    while [ $DONE -ne 1 ] && [ $SLEEP_COUNT < $SLEEP_MAX ];
     do
         for x in `ls /platform/services/`;
         do
@@ -45,7 +46,7 @@ function shutdown () {
         then
             exit 1
         fi
-        SLEEP_COUNT = SLEEP_COUNT + 1
+        SLEEP_COUNT+=1
         sleep 1
     done
     # terminate the runsv commands
@@ -55,7 +56,7 @@ function shutdown () {
         sv x $x
     done
 
-    if [ SLEEP_COUNT <= SLEEP_MAX ]
+    if [ $SLEEP_COUNT <= $SLEEP_MAX ]
     then
         exit 1
     fi

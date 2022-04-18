@@ -2,6 +2,7 @@
 
 
 mkdir -p /etc/container_environment/
+touch /etc/container_environment.sh
 echo '/platform/services/' > /etc/container_environment/SVDIR
 echo '60' > /etc/container_environment/SVWAIT
 
