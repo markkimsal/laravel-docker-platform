@@ -16,6 +16,7 @@ $minimal_apt_get_install \
     runit         \
     nginx         \
     dumb-init     \
+    cron          \
     psmisc        \
     procps
 
