@@ -27,8 +27,17 @@ $minimal_apt_get_install \
     libcurl4      \
     libpqxx-6.4   \
     libonig5      \
+    libssl1.1     \
+    libssh2-1     \
+    libxml2       \
+    zlib1g        \
+    libicu67      \
+    libpng16-16   \
+    libjpeg62     \
+    libfreetype6  \
+    libmemcached11 \
     libzip4
 
-#apt-get clean
-#rm -rf /tmp/* /var/tmp/*
-#rm -rf /var/lib/apt/lists/*
+apt-get clean
+rm -rf /tmp/* /var/tmp/*
+rm -rf /var/lib/apt/lists/*
