@@ -99,6 +99,14 @@ RUN set -ex && \
             docker-php-ext-enable timezonedb; \
     }
 
+# SSL CERTS
+RUN set -ex \
+    && { \
+        apt-get install -y ca-certificates openssh-client; \
+        rm -rf /var/lib/apt/lists/*; \
+   }
+
+
 
 FROM debian:bullseye-slim
 
