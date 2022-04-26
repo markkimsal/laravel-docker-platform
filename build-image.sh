@@ -7,17 +7,20 @@ fi
 
 if [ "$1" == "7.3" ]; then
     VERSION="7.3.33";
-	MAJORVERSION="7.3"
+    MAJORVERSION="7.3"
+    FLAVOR="${FLAVOR:-nginx-fpm}"
 fi
 if [ "$1" == "7.4" ]; then
     VERSION="7.4.28";
-	MAJORVERSION="7.4"
+    MAJORVERSION="7.4"
+    FLAVOR="${FLAVOR:-nginx-fpm}"
 fi
 if [ "$1" == "8.0" ]; then
     VERSION="8.0.17";
-	MAJORVERSION="8.0"
+    MAJORVERSION="8.0"
+    FLAVOR="${FLAVOR:-nginx-fpm}"
 fi
 
-docker build -t markkimsal/php-platform:$VERSION-nginx-fpm -f $MAJORVERSION/nginx-fpm/Dockerfile .
-echo "tagging markkimsal/php-platform:$VERSION-nginx-fpm as markkimsal/php-platform:$MAJORVERSION-nginx-fpm"
-docker tag markkimsal/php-platform:$VERSION-nginx-fpm markkimsal/php-platform:$MAJORVERSION-nginx-fpm
+docker build -t markkimsal/php-platform:$VERSION-$FLAVOR -f $MAJORVERSION/$FLAVOR/Dockerfile .
+echo "tagging markkimsal/php-platform:$VERSION-$FLAVOR as markkimsal/php-platform:$MAJORVERSION-$FLAVOR"
+docker tag markkimsal/php-platform:$VERSION-$FLAVOR markkimsal/php-platform:$MAJORVERSION-$FLAVOR
