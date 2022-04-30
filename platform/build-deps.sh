@@ -2,7 +2,7 @@
 
 set -e
 source /platform/build-env
-set -x
+set -ex
 
 apt-get update
 ## Install HTTPS support for APT.
@@ -13,11 +13,13 @@ apt-get update
 apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold"
 
 $minimal_apt_get_install \
-    runit         \
-    nginx         \
-    dumb-init     \
-    cron          \
-    psmisc        \
+    runit           \
+    nginx           \
+    dumb-init       \
+    ca-certificates \
+    cron            \
+    openssh-client  \
+    psmisc          \
     procps
 
 $minimal_apt_get_install \
