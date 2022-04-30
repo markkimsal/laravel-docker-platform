@@ -28,6 +28,7 @@ to the container ini files when you deploy.
 | sqlite3              | X |  X | X | X | X |  X |
 | readline             | X |  X | X | X | X |  X |
 | memcached (igbinary) | X |  X | X | X | X |  X |
+| redis                | X |  X | X | X | X |  X |
 | xdebug               | X |  X | X | X | X |  X |
 | zip                  | X |  X | X | X | X |  X |
 | SOAP                 | X |  X | X | X | X |  X |

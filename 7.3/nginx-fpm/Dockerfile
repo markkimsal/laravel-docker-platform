@@ -73,7 +73,6 @@ RUN set -ex \
         apt-get install -y libzip-dev libzip4; \
         docker-php-ext-configure zip --with-zlib-dir=/usr; \
         docker-php-ext-install zip; \
-        docker-php-ext-enable zip; \
     }
 
 # SSH
@@ -106,6 +105,12 @@ RUN set -ex \
         rm -rf /var/lib/apt/lists/*; \
    }
 
+# REDIS
+RUN set -eux \
+    && { \
+        pecl install redis; \
+        docker-php-ext-enable redis; \
+    }
 
 
 FROM debian:bullseye-slim
