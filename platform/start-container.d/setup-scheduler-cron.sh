@@ -7,4 +7,4 @@ source $ENV_FILE
 COMMAND="/usr/local/bin/php artisan horizon"
 WORK_DIR=${LARAVEL_HORIZON_WORK_DIR:-"/app"}
 
-echo "* * * * * cd /$WORK_DIR && php artisan schedule:run >> /dev/null 2>&1" > /etc/cron.d/laravel-artisan-schedule-run
+echo "* * * * * www-data cd $WORK_DIR && /usr/local/bin/php ./artisan schedule:run >> /dev/null 2>&1" > /etc/cron.d/laravel-artisan-schedule-run
