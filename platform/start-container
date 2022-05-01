@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source /platform/bash-exec
+#source /platform/bash-exec
 
 if [ ! -z "$WWWUID" ]; then
     usermod -u $WWWUID www-data;
