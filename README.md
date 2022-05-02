@@ -1,17 +1,11 @@
 # laravel-docker-platform
 Docker container for Laravel and PHP projects.  Graceful shutdown.  No-python supervisor. No-SSH.
 
-# NGINX-FPM Images
+# Customizing
+You can add your own one-time, start up scripts to `/platform/start-container.d/`
 
-Update the all Dockerfiles
-```
-php ./make-versions.php
-```
-
-Build a single image images with
-```
-bash ./build-image.sh 8.0
-```
+You can change any PHP ini by bind mounting a file to `/usr/local/etc/php-fpm.d/` or
+using your container orchestrator's config file functionality.
 
 # PHP Extensions
 I found that each extension barely takes up any more disk space or memory.  If you don't want them, attach blank files
@@ -67,4 +61,16 @@ respond to TERM signals mostly by dieing immediately and letting children float 
 There is a small bash file that - in combination with `dumb-init` - will act as pid 1, take `docker stop` SIGQUIT or SIGTERM and gracefully try
 to shutdown the running services.  This is essentially what the `/sbin/my_init` program from phusion/baseimage does.
 
+
+# Contributing and building your own images
+
+Update the all Dockerfiles
+```
+php ./make-versions.php
+```
+
+Build a single image images with
+```
+bash ./build-image.sh 8.0
+```
 
