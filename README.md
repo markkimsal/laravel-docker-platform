@@ -7,6 +7,51 @@ You can add your own one-time, start up scripts to `/platform/start-container.d/
 You can change any PHP ini by bind mounting a file to `/usr/local/etc/php-fpm.d/` or
 using your container orchestrator's config file functionality.
 
+# Running horizon as a standalone container
+
+The script `/platform/start-horizon` can be used to call only artisan:horizon and no other processes.
+You can deploy the same built app container with 2 different `command` values to get 2 different
+container behaviors.
+
+```
+---
+version: '3.7'
+networks:
+  traefik_ingress:
+    external: true
+
+services:
+  laravel:
+    image:  your-docker-repo/your-app-name:latest-prod
+    networks:
+      - 'traefik_ingress'
+
+    deploy:
+      endpoint_mode: dnsrr
+      mode: replicated
+      replicas: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_ingress"
+        - "traefik.http.routers.laraveltest.rule=Host(`app.localhost.test`)"
+        - "traefik.http.routers.laraveltest.entrypoints=websecure"
+        - "traefik.http.routers.laraveltest.tls=true"
+        - "traefik.http.routers.laraveltest.tls.certresolver=myresolver"
+        - "traefik.http.routers.laraveltest.service=laraveltest"
+        - "traefik.http.services.laraveltest.loadbalancer.server.port=8080"
+
+  horizon:
+    image:  your-docker-repo/your-app-name:latest-prod
+    command: /platform/start-horizon
+
+    deploy:
+      endpoint_mode: dnsrr
+      mode: replicated
+      replicas: 2
+    environment:
+      LARAVEL_HORIZON_WORK_DIR: /app
+```
+
 # PHP Extensions
 I found that each extension barely takes up any more disk space or memory.  If you don't want them, attach blank files
 to the container ini files when you deploy.
