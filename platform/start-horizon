@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+#source /platform/bash-exec
+
+ENV_FILE="/etc/container_environment.sh"
+ENV_DIR="/etc/container_environment/"
+source $ENV_FILE
+WORK_DIR=${LARAVEL_HORIZON_WORK_DIR:-"/app"}
+COMMAND="/usr/local/bin/php artisan"
+
+if [ ! -z "$WWWUID" ]; then
+    usermod -u $WWWUID www-data;
+    chown www-data /app;
+    chown -R www-data /app/storage;
+    chown -R www-data /app/bootstrap;
+fi
+
+if [ ! -z "$WWWGID" ]; then
+    groupmod -g $WWWGID www-data
+    chgrp www-data /app;
+    chgrp -R www-data /app/storage;
+    chgrp -R www-data /app/bootstrap;
+fi
+
+for oneshot in `ls /platform/start-container.d/`
+do
+    echo "executing one shot start-up command /platform/start-container.d/$oneshot"
+    /platform/start-container.d/$oneshot
+done
+
+$( $COMMAND | grep -q 'horizon:')
+HAS_HORIZON=$?
+echo "Artisan has horizon commands $HAS_HORIZON"
+if [ "$HAS_HORIZON" -ne 0 ];
+then
+    echo "No horizon found under artisan  stopping ..."
+    exit 1
+fi
+
+exec chpst -u www-data:www-data -e $ENV_DIR $COMMAND horizon

@@ -4,14 +4,16 @@
 
 if [ ! -z "$WWWUID" ]; then
     usermod -u $WWWUID www-data;
-    chown -R www-data /var/www;
     chown www-data /app;
+    chown -R www-data /app/storage;
+    chown -R www-data /app/bootstrap;
 fi
 
 if [ ! -z "$WWWGID" ]; then
     groupmod -g $WWWGID www-data
-    chgrp -R www-data /var/www
     chgrp www-data /app;
+    chgrp -R www-data /app/storage;
+    chgrp -R www-data /app/bootstrap;
 fi
 
 for oneshot in `ls /platform/start-container.d/`
