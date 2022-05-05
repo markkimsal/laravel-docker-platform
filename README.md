@@ -7,6 +7,28 @@ You can add your own one-time, start up scripts to `/platform/start-container.d/
 You can change any PHP ini by bind mounting a file to `/usr/local/etc/php-fpm.d/` or
 using your container orchestrator's config file functionality.
 
+# Running queue:work as a standalone container
+The script `/platform/start-queue` can be used to start artisan `queue:work`
+
+set `LARAVEL_QUEUE_WORK_COMMAND` with your desired_commands
+
+```
+---
+version: '3.7'
+
+services:
+  laravel:
+    image:  your-docker-repo/your-app-name:latest-prod
+  queue:
+    image:  markkimsal/php-platform:8.0-nginx-fpm
+    command: /platform/start-queue
+
+    environment:
+      LARAVEL_QUEUE_WORK_DIR: /app
+      LARAVEL_QUEUE_WORK_COMMAND: /usr/local/bin/php artisan queue:work default --tries=1 --sleep=3
+```
+
+
 # Running horizon as a standalone container
 
 The script `/platform/start-horizon` can be used to call only artisan:horizon and no other processes.
@@ -50,6 +72,29 @@ services:
       replicas: 2
     environment:
       LARAVEL_HORIZON_WORK_DIR: /app
+```
+# WWWUID and WWWGID
+You can change the id of the `www-data` user to match any owner of files on your production system.
+
+On your local development system, you can set WWWUID and WWWGID to 1000 so there are no ownership
+problems between your code and the running www-data user.  (Note, this is only an issue on Gnu/Linux)
+
+Set WWWUID and WWWGID like this:
+
+```
+---
+version: '3.7'
+
+services:
+  queue:
+    image:  markkimsal/php-platform:8.0-nginx-fpm
+    command: /platform/start-queue
+
+    environment:
+      LARAVEL_QUEUE_WORK_DIR: /app
+      LARAVEL_QUEUE_WORK_COMMAND: /usr/local/bin/php artisan queue:work default --tries=1 --sleep=3
+      WWWUID: '${WWWUID:-33}'
+      WWWGID: '${WWWGID:-33}'
 ```
 
 # PHP Extensions
