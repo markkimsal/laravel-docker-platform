@@ -37,6 +37,8 @@ $minimal_apt_get_install \
     libpng16-16   \
     libjpeg62     \
     libfreetype6  \
+    libargon2-1   \
+    libsqlite3-0  \
     libmemcached11 \
     libzip4
 
