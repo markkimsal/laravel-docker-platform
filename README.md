@@ -164,3 +164,16 @@ Build a single image images with
 bash ./build-image.sh 8.0
 ```
 
+If you are on a Mac M1 (or other ARM environments)
+
+```
+export DOCKER_DEFAULT_PLATFORM=linux/arm64
+bash ./build-image.sh 8.0
+```
+
+I think for RaspberryPi it might be
+
+```
+export DOCKER_DEFAULT_PLATFORM=linux/arm/v7
+bash ./build-image.sh 8.0
+```
