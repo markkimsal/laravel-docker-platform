@@ -31,8 +31,7 @@ do
 done
 
 cd $WORK_DIR
-if [ -z "artisan" ] then;
-then
+if [ -z "artisan" ]; then
     echo "No artisan found. stopping ..."
     exit 1
 fi
