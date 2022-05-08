@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -ex
+set -e
+set -x
 
 ENV_FILE="/etc/container_environment.sh"
 ENV_DIR="/etc/container_environment/"
@@ -14,12 +15,16 @@ then
     sv down horizon
     exit 1
 fi
+
+set +ex
 $( $COMMAND | grep -q 'horizon:')
 HAS_HORIZON=$?
 echo "Artisan has horizon commands $HAS_HORIZON"
+set -ex
+
 if [ "$HAS_HORIZON" -ne 0 ];
 then
-    echo "No horizon found under artisan  stopping ..."
+    echo "no horizon found under artisan  stopping ..."
     sv down horizon
     exit 1
 fi

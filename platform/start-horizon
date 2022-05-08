@@ -5,8 +5,6 @@
 ENV_FILE="/etc/container_environment.sh"
 ENV_DIR="/etc/container_environment/"
 source $ENV_FILE
-WORK_DIR=${LARAVEL_HORIZON_WORK_DIR:-"/app"}
-COMMAND="/usr/local/bin/php artisan"
 
 if [ ! -z "$WWWUID" ]; then
     usermod -u $WWWUID www-data;
@@ -28,13 +26,4 @@ do
     /platform/start-container.d/$oneshot
 done
 
-$( $COMMAND | grep -q 'horizon:')
-HAS_HORIZON=$?
-echo "Artisan has horizon commands $HAS_HORIZON"
-if [ "$HAS_HORIZON" -ne 0 ];
-then
-    echo "No horizon found under artisan  stopping ..."
-    exit 1
-fi
-
-exec chpst -u www-data:www-data -e $ENV_DIR $COMMAND horizon
+exec chpst -u www-data:www-data /platform/services/horizon/run
