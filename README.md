@@ -73,6 +73,11 @@ services:
     environment:
       LARAVEL_HORIZON_WORK_DIR: /app
 ```
+
+# Running horizon as supervised service
+If you want to run horizon under the supervisor `runit` you can add an environment variable `START_HORIZON_AS_SERVICE=yes` to your docker container by any means.
+
+
 # WWWUID and WWWGID
 You can change the id of the `www-data` user to match any owner of files on your production system.
 
