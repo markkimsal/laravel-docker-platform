@@ -22,4 +22,14 @@ foreach ($versions as $majorVersion => $version) {
 	file_put_contents($majorVersion.'/nginx-fpm/Dockerfile', $dockerfile);
 	echo ( "Wrote $majorVersion/nginx-fpm/Dockerfile ...");
 	echo PHP_EOL;
+
+	ob_start();
+	include('dockerfile-tools-template');
+	$dockerfile = ob_get_contents();
+	ob_end_clean();
+
+	`mkdir -p $majorVersion/tools `;
+	file_put_contents($majorVersion.'/tools/Dockerfile', $dockerfile);
+	echo ( "Wrote $majorVersion/tools/Dockerfile ...");
+	echo PHP_EOL;
 }
