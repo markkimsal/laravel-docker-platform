@@ -7,6 +7,11 @@ You can add your own one-time, start up scripts to `/platform/start-container.d/
 You can change any PHP ini by bind mounting a file to `/usr/local/etc/php-fpm.d/` or
 using your container orchestrator's config file functionality.
 
+# Config cache
+One of the start-up scripts will cache the config with artisan.  You can skip
+this step for local development by setting the environment variable
+`SKIP_CONFIG_CACHE` to any value.
+
 # Running queue:work as a standalone container
 The script `/platform/start-queue` can be used to start artisan `queue:work`
 

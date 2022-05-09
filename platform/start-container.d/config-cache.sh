@@ -7,6 +7,12 @@ source $ENV_FILE
 COMMAND="/usr/local/bin/php ./artisan config:cache"
 WORK_DIR=${LARAVEL_HORIZON_WORK_DIR:-"/app"}
 
+if [ -v SKIP_CONFIG_CACHE ]; then
+    echo "SKIP_CONFIG_CACHE is set, skipping ..."
+    sv down horizon
+    exit 0
+fi
+
 cd $WORK_DIR
 if [ ! -f artisan ];
 then
