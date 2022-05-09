@@ -16,6 +16,12 @@ then
     exit 1
 fi
 
+if [ ! -v START_HORIZON_AS_SERVICE ]; then
+    echo "START_HORIZON_AS_SERVICE not set to anything, stopping ..."
+    sv down horizon
+    exit 0
+fi
+
 set +ex
 $( $COMMAND | grep -q 'horizon:')
 HAS_HORIZON=$?

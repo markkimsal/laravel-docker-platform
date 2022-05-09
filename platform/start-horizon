@@ -26,4 +26,16 @@ do
     /platform/start-container.d/$oneshot
 done
 
-exec chpst -u www-data:www-data /platform/services/horizon/run
+set +ex
+$( $COMMAND | grep -q 'horizon:')
+HAS_HORIZON=$?
+echo "Artisan has horizon commands $HAS_HORIZON"
+set -ex
+
+if [ "$HAS_HORIZON" -ne 0 ];
+then
+    echo "no horizon found under artisan  stopping ..."
+    exit 1
+fi
+
+exec chpst -u www-data:www-data -e $ENV_DIR $COMMAND horizon
