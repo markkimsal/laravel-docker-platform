@@ -4,8 +4,20 @@ Docker container for Laravel and PHP projects.  Graceful shutdown.  No-python su
 # Customizing
 You can add your own one-time, start up scripts to `/platform/start-container.d/`
 
+If any script in `start-container.d` exists with a return code other than 0, the
+container will fail to start.
+
 You can change any PHP ini by bind mounting a file to `/usr/local/etc/php-fpm.d/` or
 using your container orchestrator's config file functionality.
+
+# Available run-time environment variables
+
+  * LARAVEL_WORK_DIR  (defaults to /app)
+  * LARAVEL_HORIZON_WORK_DIR (defaults to /app)
+  * LARAVEL_QUEUE_WORK_DIR (defaults to /app)
+  * LARAVEL_MIGRATE_COMMAND  (defaults to "/usr/local/bin/php artisan migrate --force")
+  * SKIP_MIGRATIONS
+  * SKIP_CONFIG_CACHE
 
 # Config cache
 One of the start-up scripts will cache the config with artisan.  You can skip

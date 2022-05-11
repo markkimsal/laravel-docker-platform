@@ -18,8 +18,11 @@ fi
 
 for oneshot in `ls /platform/start-container.d/`
 do
-    echo "executing one shot start-up command /platform/start-container.d/$oneshot"
+    echo "executing start-up command /platform/start-container.d/$oneshot"
     /platform/start-container.d/$oneshot
+    if [ $? -ne 0 ]; then
+        exit $?
+    fi
 done
 
 export SVDIR=/platform/services/

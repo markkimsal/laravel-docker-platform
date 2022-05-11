@@ -5,7 +5,7 @@ ENV_FILE="/etc/container_environment.sh"
 ENV_DIR="/etc/container_environment/"
 source $ENV_FILE
 COMMAND="/usr/local/bin/php ./artisan config:cache"
-WORK_DIR=${LARAVEL_HORIZON_WORK_DIR:-"/app"}
+WORK_DIR=${LARAVEL_WORK_DIR:-"/app"}
 
 if [ -v SKIP_CONFIG_CACHE ]; then
     echo "SKIP_CONFIG_CACHE is set, skipping ..."
