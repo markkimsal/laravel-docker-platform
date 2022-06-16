@@ -111,8 +111,6 @@ FROM debian:bullseye-slim
 COPY --from=php-bullseye-build \
                 /usr/local/ /usr/local/
 
-RUN ldconfig
-
 COPY platform /platform
 
 RUN /platform/build-deps.sh
