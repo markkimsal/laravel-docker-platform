@@ -4,7 +4,7 @@ FROM markkimsal/php-platform:<?php echo $release;?>-nginx-fpm
 RUN set -ex && \
     { \
         apt-get update ; \
-        apt-get install -y --no-install-recommends curl unzip git-core; \
+        apt-get install -y --no-install-recommends curl unzip git-core jq; \
     }
 
 # COMPOSER

@@ -143,25 +143,28 @@ to the container ini files when you deploy.
 | lib sodium           | X |  X | X | X | X |  X |
 | nginx                | X |  X | X | X | X |  X |
 | yarn                 |   |  X |   | X |   |  X |
-| nodejs-14.x          |   |  X |   | X |   |  X |
+| nodejs-15.x          |   |  X |   | X |   |  X |
 | composer2            |   |  X |   | X |   |  X |
 | composer1.10         |   |  X |   | X |   |  X |
 | deployer             |   |  X |   | X |   |  X |
 | altax                |   |  X |   | X |   |  X |
 | git                  |   |  X |   | X |   |  X |
+| jq                   |   |  X |   | X |   |  X |
 | unzip                |   |  X |   | X |   |  X |
 
 
 # Tools images
 Having an image that can also run tests and build your image as part of your CI pipeline is useful.  I could not find an
 image of nodejs that also had git, and at least one of my node dependencies required git to install so... here we are with
-nodejs 14 baked into this image.
+nodejs 15 baked into this image.
 
 Sometimes composer complains when you don't have a host OS `unzip` program, so that's been added to the tools variant.
 
 Also, for deploying with PHP deployer, I found that having ssh, unzip, git are usefull or required.
 
 I used to use `altax` for remote deployment so that's also on there.
+
+I can't find an image on google cloud build that has `jq`, so I installed `jq` as well.
 
 
 # Supervisor runit
