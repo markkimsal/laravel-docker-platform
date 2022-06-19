@@ -66,4 +66,4 @@ RUN set -ex && \
 
 RUN rm -rf /var/lib/apt/lists/*;
 WORKDIR /app
-CMD ["/usr/bin/bash"]
+CMD ["/bin/bash"]
