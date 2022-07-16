@@ -7,6 +7,7 @@ if [ ! -z "$WWWUID" ]; then
     chown www-data /app;
     chown -R www-data /app/storage;
     chown -R www-data /app/bootstrap;
+    chown -R www-data /var/www;
 fi
 
 if [ ! -z "$WWWGID" ]; then
@@ -14,6 +15,7 @@ if [ ! -z "$WWWGID" ]; then
     chgrp www-data /app;
     chgrp -R www-data /app/storage;
     chgrp -R www-data /app/bootstrap;
+    chgrp -R www-data /var/www;
 fi
 
 for oneshot in `ls /platform/start-container.d/`
