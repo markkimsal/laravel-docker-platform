@@ -18,6 +18,10 @@ using your container orchestrator's config file functionality.
   * LARAVEL_MIGRATE_COMMAND  (defaults to "/usr/local/bin/php artisan migrate --force")
   * SKIP_MIGRATIONS
   * SKIP_CONFIG_CACHE
+  * ENABLE_ARTISAN_SCHEDULE
+
+You _MUST_ set `ENABLE_ARTISAN_SCHEDULE` to some value, either 0 to disable artisan cron schedule or
+any other value to enable it.  Before this variable was available artisan scheduling was always on.
 
 # Config cache
 One of the start-up scripts will cache the config with artisan.  You can skip
