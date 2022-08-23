@@ -126,4 +126,4 @@ ENV SVWAIT "60"
 WORKDIR /app
 EXPOSE 8080/tcp
 EXPOSE 9000/tcp
-CMD ["/usr/local/bin/start-container"]
+ENTRYPOINT ["/usr/local/bin/start-container"]

@@ -2,6 +2,9 @@
 
 #source /platform/bash-exec
 
+ENV_DIR="/etc/container_environment/"
+mkdir -p $ENV_DIR
+
 if [ ! -z "$WWWUID" ]; then
     usermod -u $WWWUID www-data;
     chown www-data /app;
@@ -80,13 +83,17 @@ function trap_exec_failure () {
     shutdown
     return 0
 }
-
-pids=()
-for x in `ls /platform/services/`;
-do
-    echo "Staring service /platform/services/$x ..."
-    exec /usr/bin/runsv  /platform/services/$x & pids+=($!)
-done
-for pid in ${pids[*]}; do
-    wait $pids
-done
+# run any CMD passed in, otherwise, start container
+if [ $# -gt 0 ]; then
+  chpst -u www-data:www-data -e $ENV_DIR "$@"
+else
+	pids=()
+	for x in `ls /platform/services/`;
+	do
+		echo "Staring service /platform/services/$x ..."
+		exec /usr/bin/runsv  /platform/services/$x & pids+=($!)
+	done
+	for pid in ${pids[*]}; do
+		wait $pids
+	done
+fi
