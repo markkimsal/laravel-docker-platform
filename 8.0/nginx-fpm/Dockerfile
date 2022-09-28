@@ -1,4 +1,4 @@
-FROM php:8.0.18-fpm-bullseye as php-bullseye-build
+FROM php:8.0.23-fpm-bullseye as php-bullseye-build
 
 RUN apt-get update;
 	#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold";

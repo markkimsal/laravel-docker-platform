@@ -16,7 +16,7 @@ if [ "$1" == "7.4" ]; then
     FLAVOR="${FLAVOR:-nginx-fpm}"
 fi
 if [ "$1" == "8.0" ]; then
-    VERSION="8.0.18";
+    VERSION="8.0.23";
     MAJORVERSION="8.0"
     FLAVOR="${FLAVOR:-nginx-fpm}"
 fi
