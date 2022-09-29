@@ -13,6 +13,7 @@ if [ ! -z "$WWWUID" ]; then
     chown www-data /app;
     chown -R www-data /app/storage;
     chown -R www-data /app/bootstrap;
+    chown -R www-data /var/www;
 fi
 
 if [ ! -z "$WWWGID" ]; then
