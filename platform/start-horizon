@@ -41,4 +41,4 @@ then
     exit 1
 fi
 
-exec chpst -u www-data:www-data -e $ENV_DIR $COMMAND horizon
+exec chpst -e $ENV_DIR $COMMAND horizon
