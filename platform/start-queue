@@ -36,4 +36,4 @@ if [ -z "artisan" ]; then
     exit 1
 fi
 
-exec chpst -u www-data:www-data -e $ENV_DIR $LARAVEL_QUEUE_WORK_COMMAND
+exec chpst -e $ENV_DIR $LARAVEL_QUEUE_WORK_COMMAND
