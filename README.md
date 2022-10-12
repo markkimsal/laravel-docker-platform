@@ -128,33 +128,33 @@ I found that each extension barely takes up any more disk space or memory.  If y
 to the container ini files when you deploy.
 
 
-|PHP Version - flavor |  7.3-nginx-fpm |  7.3-tools | 7.4-nginx-fpm | 7.4-tools | 8.0-nginx-fpm | 8.0-tools |
+|PHP Version - flavor |  7.3-nginx-fpm |  7.3-tools | 7.4-nginx-fpm | 7.4-tools | 8.0-nginx-fpm | 8.0-tools | 8.1-nginx-fpm | 8.1-tools |
 |----------|----------|-----------------|-----|-----|-----|-----|
-| BCMATH               | X |  X | X | X | X |  X |
-| Intl                 | X |  X | X | X | X |  X |
-| gd                   | X |  X | X | X | X |  X |
-| mysql                | X |  X | X | X | X |  X |
-| pgsql                | X |  X | X | X | X |  X |
-| sqlite3              | X |  X | X | X | X |  X |
-| readline             | X |  X | X | X | X |  X |
-| memcached (igbinary) | X |  X | X | X | X |  X |
-| redis                | X |  X | X | X | X |  X |
-| xdebug               | X |  X | X | X | X |  X |
-| zip                  | X |  X | X | X | X |  X |
-| SOAP                 | X |  X | X | X | X |  X |
-| SSH2                 | X |  X | X | X | X |  X |
-| pcntl                | X |  X | X | X | X |  X |
-| lib sodium           | X |  X | X | X | X |  X |
-| nginx                | X |  X | X | X | X |  X |
-| yarn                 |   |  X |   | X |   |  X |
-| nodejs-15.x          |   |  X |   | X |   |  X |
-| composer2            |   |  X |   | X |   |  X |
-| composer1.10         |   |  X |   | X |   |  X |
-| deployer             |   |  X |   | X |   |  X |
-| altax                |   |  X |   | X |   |  X |
-| git                  |   |  X |   | X |   |  X |
-| jq                   |   |  X |   | X |   |  X |
-| unzip                |   |  X |   | X |   |  X |
+| BCMATH               | X |  X | X | X | X |  X | X | X |
+| Intl                 | X |  X | X | X | X |  X | X | X |
+| gd                   | X |  X | X | X | X |  X | X | X |
+| mysql                | X |  X | X | X | X |  X | X | X |
+| pgsql                | X |  X | X | X | X |  X | X | X |
+| sqlite3              | X |  X | X | X | X |  X | X | X |
+| readline             | X |  X | X | X | X |  X | X | X |
+| memcached (igbinary) | X |  X | X | X | X |  X | X | X |
+| redis                | X |  X | X | X | X |  X | X | X |
+| xdebug               | X |  X | X | X | X |  X | X | X |
+| zip                  | X |  X | X | X | X |  X | X | X |
+| SOAP                 | X |  X | X | X | X |  X | X | X |
+| SSH2                 | X |  X | X | X | X |  X | X | X |
+| pcntl                | X |  X | X | X | X |  X | X | X |
+| lib sodium           | X |  X | X | X | X |  X | X | X |
+| nginx                | X |  X | X | X | X |  X | X | X |
+| yarn                 |   |  X |   | X |   |  X |   |   |
+| nodejs-15.x          |   |  X |   | X |   |  X |   |   |
+| composer2            |   |  X |   | X |   |  X |   | X |
+| composer1.10         |   |  X |   | X |   |  X |   | X |
+| deployer             |   |  X |   | X |   |  X |   | X |
+| altax                |   |  X |   | X |   |  X |   | X |
+| git                  |   |  X |   | X |   |  X |   | X |
+| jq                   |   |  X |   | X |   |  X |   | X |
+| unzip                |   |  X |   | X |   |  X |   | X |
 
 
 # Tools images

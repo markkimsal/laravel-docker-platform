@@ -1,4 +1,4 @@
-FROM php:<?php echo $release; ?>-fpm-bullseye as php-bullseye-build
+FROM php:8.1.11-fpm-bullseye as php-bullseye-build
 
 RUN apt-get update;
 	#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold";
@@ -16,17 +16,6 @@ RUN docker-php-ext-install pcntl;
 RUN docker-php-ext-enable opcache;
 
 # GD
-<?php if ($majorVersion == '7.3'): ?>
-RUN set -eux; \
-	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev \
-	&& \
-	docker-php-ext-configure gd \
-		--with-freetype-dir=/usr/include/freetype2 \
-		--with-png-dir=/usr/include \
-		--with-jpeg-dir=/usr/include \
-	&& \
-	docker-php-ext-install gd;
-<?php else: ?>
 RUN set -eux; \
 	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev \
 	&& \
@@ -36,7 +25,6 @@ RUN set -eux; \
 		--with-webp \
 	&& \
 	docker-php-ext-install gd;
-<?php endif; ?>
 
 # PGSQL
 RUN set -eux; \
@@ -80,21 +68,12 @@ RUN set -ex \
     }
 
 # ZIP
-<?php if ($majorVersion == '7.3'): ?>
-RUN set -ex \
-    && { \
-        apt-get install -y libzip-dev libzip4; \
-        docker-php-ext-configure zip --with-zlib-dir=/usr; \
-        docker-php-ext-install zip; \
-    }
-<?php else: ?>
 RUN set -ex \
     && { \
         apt-get install -y libzip-dev libzip4; \
         docker-php-ext-configure zip; \
         docker-php-ext-install zip; \
     }
-<?php endif; ?>
 
 # SSH
 RUN set -ex \
@@ -105,15 +84,6 @@ RUN set -ex \
        }
 
 # LIBSODIUM
-<?php if ($majorVersion == '8.1'): ?>
-<?php else: ?>
-RUN set -ex \
-    && { \
-        apt-get install -y libsodium-dev libsodium23; \
-        pecl install libsodium; \
-        docker-php-ext-enable sodium; \
-   }
-<?php endif; ?>
 
 # TIMEZONEDB
 RUN set -ex && \

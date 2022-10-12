@@ -10,6 +10,9 @@ $versions = [
 	'8.0' => [
 		'release' => '8.0.23',
 	],
+	'8.1' => [
+		'release' => '8.1.11',
+	],
 ];
 
 foreach ($versions as $majorVersion => $version) {

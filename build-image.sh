@@ -20,6 +20,12 @@ if [ "$1" == "8.0" ]; then
     MAJORVERSION="8.0"
     FLAVOR="${FLAVOR:-nginx-fpm}"
 fi
+if [ "$1" == "8.1" ]; then
+    VERSION="8.1.11";
+    MAJORVERSION="8.1"
+    FLAVOR="${FLAVOR:-nginx-fpm}"
+fi
+
 
 docker build -t markkimsal/php-platform:$VERSION-$FLAVOR -f $MAJORVERSION/$FLAVOR/Dockerfile .
 echo "tagging markkimsal/php-platform:$VERSION-$FLAVOR as markkimsal/php-platform:$MAJORVERSION-$FLAVOR"

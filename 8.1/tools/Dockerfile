@@ -1,4 +1,4 @@
-FROM markkimsal/php-platform:<?php echo $release;?>-nginx-fpm
+FROM markkimsal/php-platform:8.1.11-nginx-fpm
 
 # CURL GIT UNZIP
 RUN set -ex && \
@@ -36,26 +36,7 @@ RUN set -ex && \
         apt-get install -y --no-install-recommends git-core; \
     }
 
-<?php if ($majorVersion !== '8.1'): ?>
-# NODEJS
-RUN set -ex && \
-    { \
-        cd ~; \
-        curl -sL https://deb.nodesource.com/setup_15.x -o nodesource_setup.sh; \
-        bash ./nodesource_setup.sh; \
-        apt update && apt-get install -y --no-install-recommends nodejs; \
-    }
-<?php endif; ?>
 
-<?php if ($majorVersion !== '8.1'): ?>
-# YARN
-RUN set -ex && \
-    { \
-     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -; \
-     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
-     apt update && apt-get install -y --no-install-recommends  yarn; \
-   }
-<?php endif; ?>
 
 # DEPLOYER
 RUN set -ex && \
