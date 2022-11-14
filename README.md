@@ -145,6 +145,7 @@ to the container ini files when you deploy.
 | SSH2                 | X |  X | X | X | X |  X | X | X |
 | pcntl                | X |  X | X | X | X |  X | X | X |
 | lib sodium           | X |  X | X | X | X |  X | X | X |
+| FFI                  |   |    | X | X | X |  X | X | X |
 | nginx                | X |  X | X | X | X |  X | X | X |
 | yarn                 |   |  X |   | X |   |  X |   |   |
 | nodejs-15.x          |   |  X |   | X |   |  X |   |   |

@@ -40,7 +40,7 @@ RUN set -ex && \
 RUN set -ex && \
     { \
         cd ~; \
-        curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh; \
+        curl -sL https://deb.nodesource.com/setup_15.x -o nodesource_setup.sh; \
         bash ./nodesource_setup.sh; \
         apt update && apt-get install -y --no-install-recommends nodejs; \
     }

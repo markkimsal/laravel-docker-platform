@@ -99,6 +99,13 @@ RUN set -eux \
         docker-php-ext-enable redis; \
     }
 
+# FFI
+RUN set -eux \
+    && { \
+	    apt-get install -y libffi-dev && \
+	    docker-php-ext-configure ffi --with-ffi && \
+	    docker-php-ext-install ffi; \
+    }
 
 FROM debian:bullseye-slim
 
