@@ -144,6 +144,9 @@ to the container ini files when you deploy.
 | SOAP                 | X |  X | X | X | X |  X | X | X |
 | SSH2                 | X |  X | X | X | X |  X | X | X |
 | pcntl                | X |  X | X | X | X |  X | X | X |
+| sysvsem              | X |  X | X | X | X |  X | X | X |
+| sysvshm              | X |  X | X | X | X |  X | X | X |
+| sysvmsg              | X |  X | X | X | X |  X | X | X |
 | lib sodium           | X |  X | X | X | X |  X | X | X |
 | FFI                  |   |    | X | X | X |  X | X | X |
 | nginx                | X |  X | X | X | X |  X | X | X |

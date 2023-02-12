@@ -15,6 +15,13 @@ RUN docker-php-ext-install pcntl;
 # OPCACHE
 RUN docker-php-ext-enable opcache;
 
+# SYSV MESSAGES
+RUN docker-php-ext-install sysvmsg;
+# SYSV SEMAPHORE
+RUN docker-php-ext-install sysvsem;
+# SYSV SHARED MEM
+RUN docker-php-ext-install sysvshm;
+
 # GD
 RUN set -eux; \
 	apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev \
