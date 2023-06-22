@@ -42,6 +42,13 @@ $minimal_apt_get_install \
     libmemcached11 \
     libzip4
 
+
+if [ $WITH_TENSOR -eq 1 ]; then
+$minimal_apt_get_install \
+	libopenblas0 \
+	liblapacke;
+fi
+
 apt-get clean
 rm -rf /tmp/* /var/tmp/*
 rm -rf /var/lib/apt/lists/*

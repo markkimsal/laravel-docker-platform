@@ -1,4 +1,5 @@
 FROM php:7.3.33-fpm-bullseye as php-bullseye-build
+ARG WITH_TENSOR=0
 
 RUN apt-get update;
 	#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold";
@@ -113,6 +114,15 @@ RUN set -eux \
     }
 
 
+# TENSOR
+RUN set -ex \
+    &&  if [ ! -z "$WITH_TENSOR" ] ; then \
+        apt-get update ; \
+        apt-get install -y libopenblas-dev liblapacke-dev re2c gfortran; \
+        pecl install tensor; \
+        docker-php-ext-enable tensor; \
+    fi
+
 FROM debian:bullseye-slim
 
 COPY --from=php-bullseye-build \
@@ -120,10 +130,17 @@ COPY --from=php-bullseye-build \
 
 COPY platform /platform
 
+ENV WITH_TENSOR=${WITH_TENSOR:-0}
 RUN /platform/build-deps.sh
 RUN /platform/build-configs.sh
 RUN /platform/install-bin.sh
 
+
+# TENSOR
+RUN set -ex \
+    &&  if [ ! -z "$WITH_TENSOR" ] ; then \
+		install_clean libopenblas0 liblapacke; \
+    fi
 
 COPY platform/runit-services /platform/services/
 COPY platform/start-container /usr/local/bin/start-container
