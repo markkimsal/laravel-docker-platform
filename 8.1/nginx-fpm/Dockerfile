@@ -1,4 +1,4 @@
-FROM php:8.1.20-fpm-bullseye as php-bullseye-build
+FROM php:8.1.25-fpm-bullseye as php-bullseye-build
 ARG WITH_TENSOR=0
 
 RUN apt-get update;
