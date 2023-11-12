@@ -16,14 +16,15 @@ using your container orchestrator's config file functionality.
   * LARAVEL_HORIZON_WORK_DIR (defaults to /app)
   * LARAVEL_QUEUE_WORK_DIR (defaults to /app)
   * LARAVEL_MIGRATE_COMMAND  (defaults to "/usr/local/bin/php artisan migrate --force")
-  * SKIP_MIGRATIONS
-  * SKIP_CONFIG_CACHE
+  * ENABLE_MIGRATIONS
+  * ENABLE_CONFIG_CACHE
+  * ENABLE_CHANGE_OWNER
   * ENABLE_ARTISAN_SCHEDULE
 
 # Config cache
-One of the start-up scripts will cache the config with artisan.  You can skip
-this step for local development by setting the environment variable
-`SKIP_CONFIG_CACHE` to any value.
+One of the start-up scripts will cache the config with artisan.  You can enable
+this step by setting the environment variable
+`ENABLE_CONFIG_CACHE` to any value.
 
 # Running queue:work as a standalone container
 The script `/platform/start-queue` can be used to start artisan `queue:work`

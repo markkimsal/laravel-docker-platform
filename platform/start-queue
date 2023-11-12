@@ -10,21 +10,7 @@ ARTISAN="/usr/local/bin/php artisan"
 DEFAULT_COMMAND="$ARTISAN queue:work"
 QUEUE_WORK_COMMAND=${LARAVEL_QUEUE_WORK_COMMAND:-$DEFAULT_COMMAND}
 
-if [ ! -z "$WWWUID" ]; then
-    usermod -u $WWWUID www-data;
-    chown www-data /app;
-    chown -R www-data /app/storage;
-    chown -R www-data /app/bootstrap;
-    chown -R www-data /var/www;
-fi
-
-if [ ! -z "$WWWGID" ]; then
-    groupmod -g $WWWGID www-data
-    chgrp www-data /app;
-    chgrp -R www-data /app/storage;
-    chgrp -R www-data /app/bootstrap;
-fi
-
+set +e
 for oneshot in `ls /platform/start-container.d/`
 do
     echo "executing one shot start-up command /platform/start-container.d/$oneshot"

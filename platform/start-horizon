@@ -8,32 +8,17 @@ source $ENV_FILE
 COMMAND="/usr/local/bin/php artisan"
 WORK_DIR=${LARAVEL_HORIZON_WORK_DIR:-"/app"}
 
-if [ ! -z "$WWWUID" ]; then
-    usermod -u $WWWUID www-data;
-    chown www-data /app;
-    chown -R www-data /app/storage;
-    chown -R www-data /app/bootstrap;
-    chown -R www-data /var/www;
-fi
-
-if [ ! -z "$WWWGID" ]; then
-    groupmod -g $WWWGID www-data
-    chgrp www-data /app;
-    chgrp -R www-data /app/storage;
-    chgrp -R www-data /app/bootstrap;
-fi
-
+set +e
 for oneshot in `ls /platform/start-container.d/`
 do
     echo "executing one shot start-up command /platform/start-container.d/$oneshot"
     /platform/start-container.d/$oneshot
 done
 
-set +ex
 $( $COMMAND | grep -q 'horizon:')
 HAS_HORIZON=$?
 echo "Artisan has horizon commands $HAS_HORIZON"
-set -ex
+set -e
 
 if [ "$HAS_HORIZON" -ne 0 ];
 then

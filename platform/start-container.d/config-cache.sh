@@ -12,6 +12,11 @@ if [ -v SKIP_CONFIG_CACHE ]; then
     exit 0
 fi
 
+if ! [ -v ENABLE_CONFIG_CACHE ]; then
+    echo "ENABLE_CONFIG_CACHE not set, skipping ..."
+    exit 0
+fi
+
 cd $WORK_DIR
 if [ ! -f artisan ];
 then

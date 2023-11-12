@@ -11,6 +11,10 @@ if [ -v SKIP_MIGRATIONS ]; then
     echo "SKIP_MIGRATIONS is set, skipping ..."
     exit 0
 fi
+if ! [ -v ENABLE_MIGRATIONS ]; then
+    echo "ENABLE_MIGRATIONS not set, skipping ..."
+    exit 0
+fi
 
 cd $WORK_DIR
 chpst -u www-data:www-data -e $ENV_DIR $COMMAND
