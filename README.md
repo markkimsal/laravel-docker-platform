@@ -127,7 +127,7 @@ to the container ini files when you deploy.
 
 
 |PHP Version - flavor |  7.3-nginx-fpm |  7.3-tools | 7.4-nginx-fpm | 7.4-tools | 8.0-nginx-fpm | 8.0-tools | 8.1-nginx-fpm | 8.1-tools |
-|----------|----------|-----------------|-----|-----|-----|-----|
+|----------|----------|-----------------|-----|-----|-----|-----|---|----|
 | BCMATH               | X |  X | X | X | X |  X | X | X |
 | Intl                 | X |  X | X | X | X |  X | X | X |
 | gd                   | X |  X | X | X | X |  X | X | X |
