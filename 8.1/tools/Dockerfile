@@ -1,4 +1,4 @@
-FROM markkimsal/php-platform:8.1.25-nginx-fpm
+FROM markkimsal/php-platform:8.1.27-nginx-fpm
 
 # CURL GIT UNZIP
 RUN set -ex && \
@@ -42,10 +42,13 @@ RUN set -ex && \
 RUN set -ex && \
     { \
         curl -LO https://deployer.org/deployer.phar; \
+        mv deployer.phar /usr/local/bin/deployer6; \
+        curl -LO https://github.com/deployphp/deployer/releases/download/v7.3.3/deployer.phar; \
+        cp deployer.phar /usr/local/bin/deployer7; \
         mv deployer.phar /usr/local/bin/deployer; \
         chmod +x /usr/local/bin/deployer; \
-        composer global require deployer/recipes --dev; \
-        curl -L https://raw.githubusercontent.com/kohkimakimoto/altax/master/installer.sh | bash -s system; \
+        chmod +x /usr/local/bin/deployer6; \
+        chmod +x /usr/local/bin/deployer7; \
         apt-get install -y --no-install-recommends  openssh-client; \
     }
 

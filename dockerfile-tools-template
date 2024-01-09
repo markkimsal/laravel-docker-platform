@@ -58,6 +58,20 @@ RUN set -ex && \
 <?php endif; ?>
 
 # DEPLOYER
+<?php if (version_compare($majorVersion, '8.1', '>=')): ?>
+RUN set -ex && \
+    { \
+        curl -LO https://deployer.org/deployer.phar; \
+        mv deployer.phar /usr/local/bin/deployer6; \
+        curl -LO https://github.com/deployphp/deployer/releases/download/v7.3.3/deployer.phar; \
+        cp deployer.phar /usr/local/bin/deployer7; \
+        mv deployer.phar /usr/local/bin/deployer; \
+        chmod +x /usr/local/bin/deployer; \
+        chmod +x /usr/local/bin/deployer6; \
+        chmod +x /usr/local/bin/deployer7; \
+        apt-get install -y --no-install-recommends  openssh-client; \
+    }
+<?php else: ?>
 RUN set -ex && \
     { \
         curl -LO https://deployer.org/deployer.phar; \
@@ -67,6 +81,7 @@ RUN set -ex && \
         curl -L https://raw.githubusercontent.com/kohkimakimoto/altax/master/installer.sh | bash -s system; \
         apt-get install -y --no-install-recommends  openssh-client; \
     }
+<?php endif; ?>
 
 RUN rm -rf /var/lib/apt/lists/*;
 WORKDIR /app

@@ -127,7 +127,7 @@ to the container ini files when you deploy.
 
 
 |PHP Version - flavor |  7.3-nginx-fpm |  7.3-tools | 7.4-nginx-fpm | 7.4-tools | 8.0-nginx-fpm | 8.0-tools | 8.1-nginx-fpm | 8.1-tools |
-|----------|----------|-----------------|-----|-----|-----|-----|---|----|
+|---------------------|----------|-----------------|-----|-----|-----|-----|---|----|
 | BCMATH               | X |  X | X | X | X |  X | X | X |
 | Intl                 | X |  X | X | X | X |  X | X | X |
 | gd                   | X |  X | X | X | X |  X | X | X |
@@ -152,11 +152,13 @@ to the container ini files when you deploy.
 | nodejs-15.x          |   |  X |   | X |   |  X |   |   |
 | composer2            |   |  X |   | X |   |  X |   | X |
 | composer1.10         |   |  X |   | X |   |  X |   | X |
-| deployer             |   |  X |   | X |   |  X |   | X |
-| altax                |   |  X |   | X |   |  X |   | X |
+| deployer - 6         |   |  X |   | X |   |  X |   | X |
+| deployer - 7         |   |    |   |   |   |    |   | X |
+| altax                |   |  X |   | X |   |  X |   |   |
 | git                  |   |  X |   | X |   |  X |   | X |
 | jq                   |   |  X |   | X |   |  X |   | X |
 | unzip                |   |  X |   | X |   |  X |   | X |
+| openssh              |   |  X |   | X |   |  X |   | X |
 
 
 # Tools images
