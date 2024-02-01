@@ -172,6 +172,12 @@ I used to use `altax` for remote deployment so that's also on there.
 
 I can't find an image on google cloud build that has `jq`, so I installed `jq` as well.
 
+To build a tools image
+
+```
+FLAVOR=tools bash ./build-image.sh 8.1
+```
+
 
 # Supervisor runit
 Runit is a small, c process supervisor.  It tries to restart failed processes until you tell it to stop.  The problem with runit
