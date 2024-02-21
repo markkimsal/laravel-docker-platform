@@ -7,7 +7,7 @@ source $ENV_FILE
 WORK_DIR=${LARAVEL_QUEUE_WORK_DIR:-"/app"}
 COMMAND="/usr/local/bin/php artisan schedule:run"
 
-if ![ -v ENABLE_ARTISAN_SCHEDULE ]; then
+if ! [ -v ENABLE_ARTISAN_SCHEDULE ]; then
     echo "ENABLE_ARTISAN_SCHEDULE not set, skipping ..."
     exit 0
 fi
