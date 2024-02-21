@@ -123,7 +123,7 @@ RUN set -eux \
 
 # TENSOR
 RUN set -ex \
-    &&  if [ ! -z "$WITH_TENSOR" ] ; then \
+    &&  if [ "$WITH_TENSOR" -ne "0" ] ; then \
         apt-get update ; \
         apt-get install -y libopenblas-dev liblapacke-dev re2c gfortran; \
         pecl install tensor; \
@@ -145,7 +145,7 @@ RUN /platform/install-bin.sh
 
 # TENSOR
 RUN set -ex \
-    &&  if [ ! -z "$WITH_TENSOR" ] ; then \
+    &&  if [ "$WITH_TENSOR" -ne "0" ] ; then \
 		install_clean libopenblas0 liblapacke; \
     fi
 
