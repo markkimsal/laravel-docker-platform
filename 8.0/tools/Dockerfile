@@ -65,6 +65,7 @@ RUN set -ex && \
     }
 
 RUN rm -rf /var/lib/apt/lists/*;
+RUN chown www-data /var/www;
 WORKDIR /app
 ENTRYPOINT []
 CMD ["/bin/bash"]

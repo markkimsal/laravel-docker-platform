@@ -152,6 +152,7 @@ RUN set -ex \
 COPY platform/runit-services /platform/services/
 COPY platform/start-container /usr/local/bin/start-container
 
+RUN chown www-data /var/www;
 ENV SVDIR "/platform/services/"
 ENV SVWAIT "60"
 WORKDIR /app
