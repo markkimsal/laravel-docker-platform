@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 set -e
-set -x
 
 ENV_FILE="/etc/container_environment.sh"
 ENV_DIR="/etc/container_environment/"
@@ -9,17 +8,17 @@ COMMAND="/usr/local/bin/php artisan"
 WORK_DIR=${LARAVEL_HORIZON_WORK_DIR:-"/app"}
 
 cd $WORK_DIR
+if [ ! -v START_HORIZON_AS_SERVICE ]; then
+    echo "START_HORIZON_AS_SERVICE not set to anything, stopping ..."
+    # sv down horizon
+    exit 0
+fi
+
 if [ ! -f artisan ];
 then
     echo "No artisan found under $WORK_DIR  stopping ..."
-    sv down horizon
+    # sv down horizon
     exit 1
-fi
-
-if [ ! -v START_HORIZON_AS_SERVICE ]; then
-    echo "START_HORIZON_AS_SERVICE not set to anything, stopping ..."
-    sv down horizon
-    exit 0
 fi
 
 set +ex
@@ -31,7 +30,7 @@ set -ex
 if [ "$HAS_HORIZON" -ne 0 ];
 then
     echo "no horizon found under artisan  stopping ..."
-    sv down horizon
+    # sv down horizon
     exit 1
 fi
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+set -e
 
 ENV_FILE="/etc/container_environment.sh"
 ENV_DIR="/etc/container_environment/"
