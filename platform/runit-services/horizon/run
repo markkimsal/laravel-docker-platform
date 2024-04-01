@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 set -e
 
 ENV_FILE="/etc/container_environment.sh"
