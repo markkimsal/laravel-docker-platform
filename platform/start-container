@@ -89,7 +89,7 @@ else
 	# unset pids that are already dead
 	# TODO: make /platform/services dynamic at run time so we don't
 	# TODO: have to allow some services to exit immediately
-	pididx = 0
+	pididx=0
 	for pid in ${pids[@]}; do
 		if ! ps -p $pid > /dev/null; then
 			unset 'pids[pididx]'
@@ -101,5 +101,10 @@ else
 	echo "Waiting on pids ..."
 		echo ${pids[@]}
 		wait -n ${pids[@]}
+        for pid in ${pids[@]}; do
+            if ! ps -p $pid > /dev/null; then
+                echo $pid exited
+            fi
+        done
 		shutdown
 	fi
