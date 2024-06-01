@@ -16,10 +16,11 @@ using your container orchestrator's config file functionality.
   * LARAVEL_HORIZON_WORK_DIR (defaults to /app)
   * LARAVEL_QUEUE_WORK_DIR (defaults to /app)
   * LARAVEL_MIGRATE_COMMAND  (defaults to "/usr/local/bin/php artisan migrate --force")
+  * LARAVEL_SCHEDULER_COMMAND (defaults to "/usr/local/bin/php artisan schedule:run")
   * ENABLE_MIGRATIONS
   * ENABLE_CONFIG_CACHE
   * ENABLE_CHANGE_OWNER
-  * ENABLE_ARTISAN_SCHEDULE
+  * ENABLE_ARTISAN_SCHEDULER  (creates /etc/cron.d/laravel-artisan-schedule-run)
 
 # Config cache
 One of the start-up scripts will cache the config with artisan.  You can enable
@@ -40,7 +41,7 @@ services:
     image:  your-docker-repo/your-app-name:latest-prod
   queue:
     image:  markkimsal/php-platform:8.0-nginx-fpm
-    command: /platform/start-queue
+    entrypoint: /platform/start-queue
 
     environment:
       LARAVEL_QUEUE_WORK_DIR: /app
@@ -83,7 +84,7 @@ services:
 
   horizon:
     image:  your-docker-repo/your-app-name:latest-prod
-    command: /platform/start-horizon
+    entrypoint: /platform/start-horizon
 
     deploy:
       endpoint_mode: dnsrr
@@ -95,6 +96,24 @@ services:
 
 # Running horizon as supervised service
 If you want to run horizon under the supervisor `runit` you can add an environment variable `START_HORIZON_AS_SERVICE=yes` to your docker container by any means.
+
+
+# Running artisan schedule:run as a standalone container
+The entrypoint `/platform/start-cron` can be used to run cron, with `ENABLE_ARTISAN_SCHEDULER` environment variable
+you can run `artisan schedule:run` every minute.
+
+```
+---
+version: '3.7'
+
+services:
+  scheduler:
+    image:  your-docker-repo/your-app-name:latest-prod
+    entrypoint: /platform/start-queue
+
+    environment:
+      ENABLE_ARTISAN_SCHEDULER: 1
+```
 
 
 # WWWUID and WWWGID
