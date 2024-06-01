@@ -23,4 +23,36 @@ if [ -z "artisan" ]; then
     exit 1
 fi
 
-exec chpst -e $ENV_DIR $LARAVEL_QUEUE_WORK_COMMAND
+
+function shutdown () {
+    # Disabling the traps to avoid a cascading
+    trap - SIGINT SIGILL SIGABRT SIGFPE SIGSEGV SIGTERM SIGBUS SIGCHLD SIGKILL ERR
+    echo "waiting for all services to exit ..."
+    DONE=0
+    SLEEP_COUNT=0
+    SLEEP_MAX=60
+    while [ $DONE -ne 1 ] && [ $SLEEP_COUNT -le $SLEEP_MAX ];
+    do
+        echo "sending TERM to all php processes"
+        killall -TERM php
+        SLEEP_COUNT=$((SLEEP_COUNT + 1))
+        sleep 1
+        if ! ps -C php > /dev/null; then
+            DONE=1
+            continue
+        fi
+
+        if [ $SLEEP_COUNT -ge $SLEEP_MAX ]
+        then
+            echo "Sleep count too high, exiting."
+            exit 1
+        fi
+        echo "Waiting for more php processes to exit ..."
+    done
+
+exit 0
+}
+
+trap shutdown SIGTERM SIGQUIT SIGINT;
+chpst -u www-data:www-data -e $ENV_DIR $LARAVEL_QUEUE_WORK_COMMAND &
+wait
