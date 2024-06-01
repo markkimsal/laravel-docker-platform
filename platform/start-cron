@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+#source /platform/bash-exec
+
+ENV_FILE="/etc/container_environment.sh"
+ENV_DIR="/etc/container_environment/"
+source $ENV_FILE
+
+set +e
+for oneshot in `ls /platform/start-container.d/`
+do
+    echo "executing one shot start-up command /platform/start-container.d/$oneshot"
+    /platform/start-container.d/$oneshot
+done
+
+cd $WORK_DIR
+if [ -z "artisan" ]; then
+    echo "No artisan found. stopping ..."
+    exit 1
+fi
+
+function shutdown () {
+    # Disabling the traps to avoid a cascading
+    trap - SIGINT SIGILL SIGABRT SIGFPE SIGSEGV SIGTERM SIGBUS SIGCHLD SIGKILL ERR
+    echo "waiting for all services to exit ..."
+    DONE=0
+    SLEEP_COUNT=0
+    SLEEP_MAX=60
+    while [ $DONE -ne 1 ] && [ $SLEEP_COUNT -le $SLEEP_MAX ];
+    do
+        echo "sending TERM to all cron processes"
+        killall -TERM cron
+        SLEEP_COUNT=$((SLEEP_COUNT + 1))
+        sleep 1
+        if ! ps -C cron > /dev/null; then
+            DONE=1
+            continue
+        fi
+
+        if [ $SLEEP_COUNT -ge $SLEEP_MAX ]
+        then
+            echo "Sleep count too high, exiting."
+            exit 1
+        fi
+        echo "Waiting for more cron processes to exit ..."
+    done
+
+exit 0
+}
+
+trap shutdown SIGTERM SIGQUIT SIGINT;
+/usr/sbin/cron -f &
+wait
