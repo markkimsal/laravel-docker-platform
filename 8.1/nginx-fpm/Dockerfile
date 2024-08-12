@@ -1,5 +1,6 @@
-FROM php:8.1.27-fpm-bullseye as php-bullseye-build
+FROM php:8.1.29-fpm-bullseye as php-bullseye-build
 ARG WITH_TENSOR=0
+ARG WITH_SWOOLE=0
 
 RUN apt-get update;
 	#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold";
@@ -123,6 +124,13 @@ RUN set -ex \
         pecl install tensor; \
         docker-php-ext-enable tensor; \
     fi
+
+# SWOOLE
+RUN set -ex \
+    &&  if [ "$WITH_SWOOLE" -ne "0" ] ; then \
+        pecl install openswoole; \
+    fi
+
 
 FROM debian:bullseye-slim
 
