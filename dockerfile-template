@@ -1,5 +1,6 @@
 FROM php:<?php echo $release; ?>-fpm-bullseye as php-bullseye-build
 ARG WITH_TENSOR=0
+ARG WITH_SWOOLE=0
 
 RUN apt-get update;
 	#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold";
@@ -113,7 +114,7 @@ RUN set -ex \
        }
 
 # LIBSODIUM
-<?php if ($majorVersion == '8.1'): ?>
+<?php if (version_compare($majorVersion, '8.1') >= 0): ?>
 <?php else: ?>
 RUN set -ex \
     && { \
@@ -155,6 +156,13 @@ RUN set -ex \
         pecl install tensor; \
         docker-php-ext-enable tensor; \
     fi
+
+# SWOOLE
+RUN set -ex \
+    &&  if [ "$WITH_SWOOLE" -ne "0" ] ; then \
+        pecl install openswoole; \
+    fi
+
 
 FROM debian:bullseye-slim
 

@@ -1,4 +1,4 @@
-FROM php:8.0.30-fpm-bullseye as php-bullseye-build
+FROM php:8.2.25-fpm-bullseye as php-bullseye-build
 ARG WITH_TENSOR=0
 ARG WITH_SWOOLE=0
 
@@ -93,12 +93,6 @@ RUN set -ex \
        }
 
 # LIBSODIUM
-RUN set -ex \
-    && { \
-        apt-get install -y libsodium-dev libsodium23; \
-        pecl install libsodium; \
-        docker-php-ext-enable sodium; \
-   }
 
 # TIMEZONEDB
 RUN set -ex && \
