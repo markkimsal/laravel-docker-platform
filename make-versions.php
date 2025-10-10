@@ -3,18 +3,23 @@
 $versions = [
 	'7.3' => [
 		'release' => '7.3.33',
+		'debian_release' => 'bullseye',
 	],
 	'7.4' => [
 		'release' => '7.4.29',
+		'debian_release' => 'bullseye',
 	],
 	'8.0' => [
 		'release' => '8.0.30',
+		'debian_release' => 'bullseye',
 	],
 	'8.1' => [
-		'release' => '8.1.31',
+		'release' => '8.1.33',
+		'debian_release' => 'trixie',
 	],
 	'8.2' => [
 		'release' => '8.2.25',
+		'debian_release' => 'trixie',
 	],
 ];
 

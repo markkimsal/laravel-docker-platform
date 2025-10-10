@@ -1,4 +1,4 @@
-FROM php:<?php echo $release; ?>-fpm-bullseye as php-bullseye-build
+FROM php:<?php echo $release; ?>-fpm-<?php echo $debian_release; ?> as php-<?php echo $debian_release; ?>-build
 ARG WITH_TENSOR=0
 ARG WITH_SWOOLE=0
 
@@ -96,10 +96,17 @@ RUN set -ex \
         docker-php-ext-configure zip --with-zlib-dir=/usr; \
         docker-php-ext-install zip; \
     }
-<?php else: ?>
+<?php elseif($debian_release === 'bookworm'): ?>
 RUN set -ex \
     && { \
         apt-get install -y libzip-dev libzip4; \
+        docker-php-ext-configure zip; \
+        docker-php-ext-install zip; \
+    }
+<?php else: ?>
+RUN set -ex \
+    && { \
+        apt-get install -y libzip-dev libzip5; \
         docker-php-ext-configure zip; \
         docker-php-ext-install zip; \
     }
@@ -163,17 +170,17 @@ RUN set -ex \
     fi
 
 
-FROM debian:bullseye-slim
+FROM debian:<?php echo $debian_release; ?>-slim
 
 RUN apt-get update && apt-get upgrade -y;
 
-COPY --from=php-bullseye-build \
+COPY --from=php-<?php echo $debian_release; ?>-build \
                 /usr/local/ /usr/local/
 
 COPY platform /platform
 
 ENV WITH_TENSOR=${WITH_TENSOR:-0}
-RUN /platform/build-deps.sh
+RUN /platform/build-deps-<?php echo $debian_release; ?>.sh
 RUN /platform/build-configs.sh
 RUN /platform/install-bin.sh
 

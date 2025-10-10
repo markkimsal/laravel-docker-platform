@@ -1,9 +1,9 @@
-FROM php:8.2.25-fpm-bullseye as php-bullseye-build
+FROM php:8.2.25-fpm-trixie as php-trixie-build
 ARG WITH_TENSOR=0
 ARG WITH_SWOOLE=0
 
-RUN apt-get update;
-	#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold";
+RUN apt-get update && apt-get upgrade -y;
+#apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold";
 
 # MYSQL
 RUN docker-php-ext-install pdo pdo_mysql mysqli;
@@ -79,7 +79,7 @@ RUN set -ex \
 # ZIP
 RUN set -ex \
     && { \
-        apt-get install -y libzip-dev libzip4; \
+        apt-get install -y libzip-dev libzip5; \
         docker-php-ext-configure zip; \
         docker-php-ext-install zip; \
     }
@@ -119,7 +119,6 @@ RUN set -eux \
 # TENSOR
 RUN set -ex \
     &&  if [ "$WITH_TENSOR" -ne "0" ] ; then \
-        apt-get update ; \
         apt-get install -y libopenblas-dev liblapacke-dev re2c gfortran; \
         pecl install tensor; \
         docker-php-ext-enable tensor; \
@@ -132,15 +131,17 @@ RUN set -ex \
     fi
 
 
-FROM debian:bullseye-slim
+FROM debian:trixie-slim
 
-COPY --from=php-bullseye-build \
+RUN apt-get update && apt-get upgrade -y;
+
+COPY --from=php-trixie-build \
                 /usr/local/ /usr/local/
 
 COPY platform /platform
 
 ENV WITH_TENSOR=${WITH_TENSOR:-0}
-RUN /platform/build-deps.sh
+RUN /platform/build-deps-trixie.sh
 RUN /platform/build-configs.sh
 RUN /platform/install-bin.sh
 
