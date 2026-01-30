@@ -133,7 +133,7 @@ RUN set -ex \
 
 FROM debian:trixie-slim
 
-RUN apt-get update && apt-get dist-upgrade -y;
+RUN apt-get update && apt-get upgrade -y;
 
 COPY --from=php-trixie-build \
                 /usr/local/ /usr/local/

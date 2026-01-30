@@ -18,7 +18,7 @@ $versions = [
 		'debian_release' => 'trixie',
 	],
 	'8.2' => [
-		'release' => '8.2.25',
+		'release' => '8.2.30',
 		'debian_release' => 'trixie',
 	],
 ];
