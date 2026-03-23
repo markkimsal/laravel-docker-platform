@@ -4,7 +4,7 @@ FROM markkimsal/php-platform:<?php echo $release;?>-nginx-fpm
 RUN set -ex && \
     { \
         apt-get update ; \
-        apt-get install -y --no-install-recommends curl unzip git-core jq; \
+        apt-get install -y --no-install-recommends curl unzip git-core jq gpg; \
     }
 
 # COMPOSER
@@ -36,7 +36,7 @@ RUN set -ex && \
         apt-get install -y --no-install-recommends git-core; \
     }
 
-<?php if ($majorVersion !== '8.1'): ?>
+<?php if (version_compare($majorVersion, '8.1', '<')): ?>
 # NODEJS
 RUN set -ex && \
     { \
@@ -47,12 +47,12 @@ RUN set -ex && \
     }
 <?php endif; ?>
 
-<?php if ($majorVersion !== '8.1'): ?>
+<?php if (version_compare($majorVersion, '8.1', '>=')): ?>
 # YARN
 RUN set -ex && \
     { \
-     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -; \
-     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
+     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg |  gpg --dearmor -o /etc/apt/keyrings/yarnpkg.gpg; \
+     echo "deb [signed-by=/etc/apt/keyrings/yarnpkg.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
      apt update && apt-get install -y --no-install-recommends  yarn; \
    }
 <?php endif; ?>

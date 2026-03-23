@@ -1,10 +1,10 @@
-FROM markkimsal/php-platform:8.1.33-nginx-fpm
+FROM markkimsal/php-platform:8.1.34-nginx-fpm
 
 # CURL GIT UNZIP
 RUN set -ex && \
     { \
         apt-get update ; \
-        apt-get install -y --no-install-recommends curl unzip git-core jq; \
+        apt-get install -y --no-install-recommends curl unzip git-core jq gpg; \
     }
 
 # COMPOSER
@@ -37,6 +37,13 @@ RUN set -ex && \
     }
 
 
+# YARN
+RUN set -ex && \
+    { \
+     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg |  gpg --dearmor -o /etc/apt/keyrings/yarnpkg.gpg; \
+     echo "deb [signed-by=/etc/apt/keyrings/yarnpkg.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
+     apt update && apt-get install -y --no-install-recommends  yarn; \
+   }
 
 # DEPLOYER
 RUN set -ex && \
