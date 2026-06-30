@@ -4,7 +4,7 @@ FROM markkimsal/php-platform:7.3.33-nginx-fpm
 RUN set -ex && \
     { \
         apt-get update ; \
-        apt-get install -y --no-install-recommends curl unzip git-core jq; \
+        apt-get install -y --no-install-recommends curl unzip git-core jq gpg; \
     }
 
 # COMPOSER
@@ -45,13 +45,6 @@ RUN set -ex && \
         apt update && apt-get install -y --no-install-recommends nodejs; \
     }
 
-# YARN
-RUN set -ex && \
-    { \
-     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -; \
-     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
-     apt update && apt-get install -y --no-install-recommends  yarn; \
-   }
 
 # DEPLOYER
 RUN set -ex && \
