@@ -1,4 +1,4 @@
-FROM php:8.2.31-fpm-trixie as php-trixie-build
+FROM php:8.2.35-fpm-trixie AS php-trixie-build
 ARG WITH_TENSOR=0
 ARG WITH_SWOOLE=0
 

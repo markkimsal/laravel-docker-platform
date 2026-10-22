@@ -1,4 +1,4 @@
-FROM markkimsal/php-platform:8.2.31-nginx-fpm
+FROM markkimsal/php-platform:8.2.35-nginx-fpm
 
 # CURL GIT UNZIP
 RUN set -ex && \

@@ -1,4 +1,4 @@
-FROM php:7.4.29-fpm-bullseye as php-bullseye-build
+FROM php:7.4.29-fpm-bullseye AS php-bullseye-build
 ARG WITH_TENSOR=0
 ARG WITH_SWOOLE=0
 

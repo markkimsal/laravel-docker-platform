@@ -1,4 +1,4 @@
-FROM php:<?php echo $release; ?>-fpm-<?php echo $debian_release; ?> as php-<?php echo $debian_release; ?>-build
+FROM php:<?php echo $release; ?>-fpm-<?php echo $debian_release; ?> AS php-<?php echo $debian_release; ?>-build
 ARG WITH_TENSOR=0
 ARG WITH_SWOOLE=0
 
