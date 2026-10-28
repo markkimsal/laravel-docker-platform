@@ -118,7 +118,7 @@ RUN set -eux \
 
 # TENSOR
 RUN set -ex \
-    &&  if [ "$WITH_TENSOR" -ne "0" ] ; then \
+    &&  if [ "${WITH_TENSOR:-0}" -ne "0" ] ; then \
         apt-get install -y libopenblas-dev liblapacke-dev re2c gfortran; \
         pecl install tensor; \
         docker-php-ext-enable tensor; \
@@ -140,7 +140,7 @@ COPY --from=php-trixie-build \
 
 COPY platform /platform
 
-ENV WITH_TENSOR=${WITH_TENSOR:-0}
+ENV WITH_TENSOR ${WITH_TENSOR:-0}
 RUN /platform/build-deps-trixie.sh
 RUN /platform/build-configs.sh
 RUN /platform/install-bin.sh
@@ -148,7 +148,7 @@ RUN /platform/install-bin.sh
 
 # TENSOR
 RUN set -ex \
-    &&  if [ "$WITH_TENSOR" -ne "0" ] ; then \
+    &&  if [ "${WITH_TENSOR:-0}" -ne "0" ] ; then \
 		install_clean libopenblas0 liblapacke; \
     fi
 
